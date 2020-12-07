@@ -1,0 +1,60 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <style>
+
+        .my_card_title {
+            color: white;
+            font-weight: 400;
+        }
+
+    </style>
+
+    <div class="mdl-grid">
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp ">
+            <div class="mdl-card__title mdl-color--primary">
+                <h2 class="my_card_title mdl-card__title-text">Please Login</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <form class="form-login" role="form" method="post" action="">
+                    {{ form.csrf_token }}
+                    <div class="mdl-textfield mdl-js-textfield">
+                        {{ form.email(placeholder="email", class='mdl-textfield__input') }}
+                        <label class="mdl-textfield__label" for="{{ form.email.id }}">{{ form.email.label }}</label>
+                    </div>
+                    <span class="error">
+                      {% if form.email.errors %}
+                          {% for error in form.email.errors %}
+                              {{ error }}
+                          {% endfor %}
+                      {% endif %}
+                    </span>
+                    <br/>
+                    <div class="mdl-textfield mdl-js-textfield">
+                        {{ form.password(placeholder="password", class='mdl-textfield__input') }}
+                        <label class="mdl-textfield__label" for="{{ form.password.id }}">{{ form.password.label }}</label>
+                    </div>
+                    <span class="error">
+                      {% if form.password.errors %}
+                          {% for error in form.password.errors %}
+                              {{ error }}
+                          {% endfor %}
+                      {% endif %}
+                    </span>
+                    <br/><br/>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Sign
+                        in!
+                    </button>
+                    <br/><br/>
+                    <ul>
+                        <li>Need to <a href="/register">Register</a>?</li>
+                        <li><a href="/forgot">Forgot</a> your password?</li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+        <div class="mdl-layout-spacer"></div>
+    </div>
+
+{% endblock %}

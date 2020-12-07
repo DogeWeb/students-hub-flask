@@ -1,0 +1,50 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<h1>Upload note</h1>
+<br/>
+<form class="form-signin" role="form" method="post" action="">
+  {{ form.csrf_token }}
+<p>
+  {{ form.file }}
+    <span class="error">
+      {% if form.file.errors %}
+        {% for error in form.file.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+  </p>
+  <p>
+  {{ form.description }}
+    <span class="error">
+      {% if form.description.errors %}
+        {% for error in form.description.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+  </p>
+  <p>
+  {{ form.subject }}
+    <span class="error">
+      {% if form.file.errors %}
+        {% for error in form.file.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+  </p>
+  {{ form.upload }}
+    <span class="error">
+      {% if form.upload.errors %}
+        {% for error in form.upload.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+  </p>
+</form>
+
+
+{% endblock %}

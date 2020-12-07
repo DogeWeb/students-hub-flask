@@ -1,0 +1,87 @@
+{% extends "_base.html" %}
+{% block content %}
+
+    {#<h1>Meetings List</h1>#}
+    {##}
+    {# Meeting      = m[0] #}
+    {# Subject      = m[1] #}
+    {# Course       = m[2] #}
+    {# User         = m[3] #}
+    {# Partecipants = m[5] #}
+    {# in_the_meeting = m[6] #}
+    {##}
+{#    {% for m in meetlist %}#}
+{#        {{ m }}#}
+{#        <br/>#}
+{#    {% endfor %}#}
+
+<h2>Meetings list for {{ course.name }}</h2>
+<div class="mdl-grid">
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--2dp " style="overflow-x: auto">
+  <table class="mdl-data-table mdl-js-data-table">
+  <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">Host</th>
+      <th class="mdl-data-table__cell--non-numeric">Subject</th>
+      <th class="mdl-data-table__cell--non-numeric">Date</th>
+      <th class="mdl-data-table__cell--non-numeric">Description</th>
+      <th class="mdl-data-table__cell--non-numeric">Link</th>
+      <th>Participants</th>
+      <th class="mdl-data-table__cell--non-numeric">Join</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for m in meetlist %}
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric">{{ m[3].name + ' ' + m[3].surname }}</td>
+      <td class="mdl-data-table__cell--non-numeric">{{ m[1].name }}</td>
+      <td class="mdl-data-table__cell--non-numeric">
+              {% set cr_date = datetime.datetime.strptime(m[0].datetime, '%Y-%m-%d %H:%M:%S.%f') %}
+                {% set cr_date = cr_date.strftime("%d %B %Y %I:%M:%S %p") %}
+                {{ cr_date }}</td>
+      <td class="mdl-data-table__cell--non-numeric">{{ m[0].description }}</td>
+      <td class="mdl-data-table__cell--non-numeric"><a href="{{ m[0].link }}">{{ m[0].link }}</a></td>
+      <td>{{ m[5] }}</td>
+      <td class="mdl-data-table__cell--non-numeric">
+          {% if m[6] %}
+              {% if current_user.id == m[0].host %}
+                  <button disabled class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" >You are the host</button>
+              {% else %}
+                  <form action="{{ url_for('meetings.remove_user_from_meeting', meeting_id=m[0].id) }}" method="get">
+                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary"  >Remove me from Meeting</button>
+                  </form>
+              {% endif %}
+          {% else %}
+              <form action="{{ url_for('meetings.join_meeting', meeting_id=m[0].id) }}" method="get">
+           <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Join Meeting</button>
+              </form>
+          {% endif %}
+    </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+        </div>
+        <div class="mdl-layout-spacer"></div>
+</div>
+    <section class="section--footer mdl-color--white mdl-grid">
+            <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+              <div class="section__circle-container__circle mdl-color--accent section__circle--big"></div>
+            </div>
+            <div class="section__text mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+              <h5>Lorem ipsum dolor sit amet</h5>
+              Qui sint ut et qui nisi cupidatat. Reprehenderit nostrud proident officia exercitation anim et pariatur ex.
+            </div>
+            <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+              <div class="section__circle-container__circle mdl-color--accent section__circle--big"></div>
+            </div>
+            <div class="section__text mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+              <h5>Lorem ipsum dolor sit amet</h5>
+              Qui sint ut et qui nisi cupidatat. Reprehenderit nostrud proident officia exercitation anim et pariatur ex.
+            </div>
+    </section>
+
+
+
+{% endblock %}

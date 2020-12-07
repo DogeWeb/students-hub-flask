@@ -1,0 +1,12 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<h1>Subjects List for {{ course.name }} </h1>
+
+
+{% for s in subjectslist %}
+    <a href='{{ url_for('notes.notes_list', subject_id=s.id) }}'>{{ s.name }}</a>
+    <br/>
+{% endfor %}
+
+{% endblock %}

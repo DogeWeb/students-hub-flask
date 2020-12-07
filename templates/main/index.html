@@ -1,0 +1,54 @@
+{% extends "_base.html" %}
+{% block content %}
+
+     <style>
+
+        .my_card_title {
+            color: white;
+            font-weight: 400;
+        }
+
+    </style>
+
+
+    <div class="mdl-grid">
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp ">
+            <div class="mdl-card__title mdl-color--primary">
+                <div class="my_card_title mdl-card__title-text">
+
+                    {% if current_user.is_authenticated %}
+                      <h3>Welcome, {{ current_user.email }}</h3>
+                    {% else %}
+                      <h3>Welcome!</h3>
+                    {% endif %}
+
+                </div>
+            </div>
+            <div class="mdl-card__supporting-text">
+
+
+
+<br />
+
+{% if current_user.is_authenticated %}
+  <p>You are <span style="color:green">authenticated</span></p>
+  <ul>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+{% else %}
+  <p>You are <span class="mdl-color-text--red-700" style="font-weight: 600">not authenticated</span>:</p>
+  <ul>
+    <li><a href="/login">Sign In</a></li>
+    <li>Need to <a href="/register">register</a>?</li>
+    <li><a href="/forgot">Forgot</a> your password?</li>
+  </ul>
+{% endif %}
+
+                       </div>
+        </div>
+        <div class="mdl-layout-spacer"></div>
+    </div>
+
+
+{% endblock %}

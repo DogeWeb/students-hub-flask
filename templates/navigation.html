@@ -1,0 +1,147 @@
+{#<!-- Navigation -->#}
+{#<nav class="navbar navbar-default navbar-fixed-top" role="navigation">#}
+{#  <div class="container">#}
+{#    <!-- Brand and toggle get grouped for better mobile display -->#}
+{#    <div class="navbar-header">#}
+{#      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">#}
+{#        <span class="sr-only">Toggle navigation</span>#}
+{#        <span class="icon-bar"></span>#}
+{#        <span class="icon-bar"></span>#}
+{#        <span class="icon-bar"></span>#}
+{#      </button>#}
+{#      <a class="navbar-brand" href="{{ url_for('main.home') }}">Flask-User-Management</a>#}
+{#    </div>#}
+{#    <!-- Collect the nav links, forms, and other content for toggling -->#}
+{#    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">#}
+{#      <ul class="nav navbar-nav">#}
+{#      <li><a href="{{ url_for('main.home') }}">Home</a></li>#}
+{#        {% if current_user.confirmed and current_user.is_authenticated() %}#}
+{#          <li><a href="{{ url_for('meetings.meetings_list') }}">Meetings</a></li>#}
+{#          <li><a href="{{ url_for('notes.subjects_list') }}">Find notes</a></li>#}
+{#          <li><a href="{{ url_for('notes.upload') }}">Upload note</a></li>#}
+{##}
+{#        {% elif current_user.is_authenticated %}#}
+{#          <li><a href="{{ url_for('user.unconfirmed') }}">Confirm</a></li>#}
+{#        {% endif %}#}
+{#      </ul>#}
+{#      <ul class="nav navbar-nav navbar-right">#}
+{#        {% if current_user.is_authenticated %}#}
+{#          <li><a href="{{ url_for('user.profile') }}">Profile</a></li>#}
+{#          <li><a href="{{ url_for('user.logout') }}">Logout</a></li>#}
+{#        {% else %}#}
+{#          <li><a href="{{ url_for('user.register') }}">Sign up</a></li>#}
+{#          <li><a href="{{ url_for('user.login') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;Login</a></li>#}
+{#        {% endif %}#}
+{#      </ul>#}
+{#    </div>#}
+{#    <!-- /.navbar-collapse -->#}
+{#  </div>#}
+{#  <!-- /.container -->#}
+{#</nav>#}
+
+<style>
+    .mdl-layout--fixed-header>.mdl-layout__header {
+  z-index: 6;
+}
+
+.has-drawer .mdl-layout__drawer {
+  padding-top: 64px;
+}
+
+.mdl-layout--fixed-drawer:not(.is-small-screen)>.mdl-layout__header {
+  padding-left: 240px;
+  margin-left: 0;
+  width: 100%;
+}
+.my-tab-icon {
+    line-height: 64px;
+}
+
+</style>
+
+
+
+
+<header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+{#<header class="mdl-layout__header mdl-layout__header--transparent mdl-layout__header--scroll">#}
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Students Hub</span>
+    </div>
+    <div class="mdl-layout__tab-bar mdl-layout--large-screen-only mdl-js-ripple-effect mdl-color--primary-dark">
+{#    <div class="mdl-layout__tab-bar mdl-layout--large-screen-only mdl-js-ripple-effect">#}
+        <a href="{{ url_for('main.home') }}"
+           class="mdl-layout__tab {% if 'main.home' == request.endpoint %}is-active {% endif %}">Home</a>
+        {% if current_user.confirmed and current_user.is_authenticated() %}
+            <a href="{{ url_for('meetings.meetings_list') }}"
+               class="mdl-layout__tab {% if 'meetings.meetings_list' == request.endpoint %}is-active {% endif %}">Meetings</a>
+            <a href="{{ url_for('notes.subjects_list') }}"
+               class="mdl-layout__tab {% if 'notes.subjects_list' == request.endpoint %}is-active {% endif %}">Find
+                notes</a>
+            <a href="{{ url_for('notes.upload') }}"
+               class="mdl-layout__tab {% if 'notes.upload' == request.endpoint %} is-active {% endif %}">Upload a
+                note</a>
+        {% elif current_user.is_authenticated %}
+            <a href="{{ url_for('user.unconfirmed') }}"
+               class="mdl-layout__tab {% if 'user.unconfirmed' == request.endpoint %} is-active {% endif %}">Confirm</a>
+        {% endif %}
+
+        <div class="mdl-layout-spacer"></div>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('user.profile') }}"
+               class="mdl-layout__tab {% if 'user.profile' == request.endpoint %} is-active {% endif %}">
+{#                <span class="material-icons my-tab-icon">account_circle</span>#}
+                Profile
+            </a>
+            <a href="{{ url_for('user.logout') }}"
+               class="mdl-layout__tab {% if 'user.logout' == request.endpoint %} is-active {% endif %}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('user.register') }}"
+               class="mdl-layout__tab {% if 'user.register' == request.endpoint %} is-active {% endif %}">Register</a>
+
+            <a href="{{ url_for('user.login') }}"
+               class="mdl-layout__tab {% if 'user.login' == request.endpoint %} is-active {% endif %}">Login</a>
+
+        {% endif %}
+    </div>
+</header>
+
+{#<div class="mdl-layout__drawer mdl-layout--small-screen-only">#}
+<div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Title</span>
+    <nav class="mdl-navigation">
+    <a href="{{ url_for('main.home') }}"
+       class="mdl-navigation__link {% if 'main.home' == request.endpoint %} mdl-navigation__link--current {% endif %}">Home</a>
+    {% if current_user.confirmed and current_user.is_authenticated() %}
+        <a href="{{ url_for('meetings.meetings_list') }}"
+           class="mdl-navigation__link{% if 'meetings.meetings_list' == request.endpoint %} mdl-navigation__link--current  {% endif %}">Meetings</a>
+        <a href="{{ url_for('notes.subjects_list') }}"
+           class="mdl-navigation__link{% if 'notes.subjects_list' == request.endpoint %} mdl-navigation__link--current  {% endif %}">Find
+            notes</a>
+        <a href="{{ url_for('notes.upload') }}"
+           class="mdl-navigation__link{% if 'notes.upload' == request.endpoint %} mdl-navigation__link--current  {% endif %}">Upload a
+            note</a>
+    {% elif current_user.is_authenticated %}
+        <a href="{{ url_for('user.unconfirmed') }}"
+           class="mdl-navigation__link{% if 'user.unconfirmed' == request.endpoint %} mdl-navigation__link--current {% endif %}">Confirm</a>
+    {% endif %}
+
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('user.profile') }}"
+           class="mdl-navigation__link{% if 'user.profile' == request.endpoint %} mdl-navigation__link--current {% endif %}">
+            <span class="icon-bar mdl-select__icon icon material-icons">account_circle</span>
+            <span>Profile</span></a>
+        <a href="{{ url_for('user.logout') }}"
+           class="mdl-navigation__link{% if 'user.logout' == request.endpoint %} mdl-navigation__link--current {% endif %}">Logout</a>
+    {% else %}
+        <a href="{{ url_for('user.register') }}"
+           class="mdl-navigation__link{% if 'user.register' == request.endpoint %} mdl-navigation__link--current {% endif %}">Register</a>
+
+        <a href="{{ url_for('user.login') }}"
+           class="mdl-navigation__link{% if 'user.login' == request.endpoint %} mdl-navigation__link--current {% endif %}">Login</a>
+
+    {% endif %}
+</nav>
+</div>
+
+
