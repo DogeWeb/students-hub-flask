@@ -263,7 +263,7 @@ def _get_query(course_id, current_user_id):
        meeting_users.meeting     AS meeting_users_meeting,
        meeting_users.user        AS meeting_users_user,
        count(meeting_users.user) AS count_1,
-       CASE WHEN EXISTS(SELECT * FROM meeting_users WHERE meeting_users.user LIKE {} AND meeting.id LIKE meeting_users.meeting) THEN true ELSE false END [in_the_meeting]
+       CASE WHEN EXISTS(SELECT * FROM meeting_users WHERE meeting_users.user LIKE {} AND meeting.id LIKE meeting_users.meeting) THEN 1 ELSE 0 END [in_the_meeting]
 FROM meeting,
      subject,
      course,
