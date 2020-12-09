@@ -143,7 +143,8 @@ def create_meeting(host_id, subject_id, datetime, creation_date, link, descripti
 
 
 def add_user_to_meeting(user_id, meeting_id):
-    already_in = MeetingUsers.query.filter(MeetingUsers.user.like(user_id)).filter(MeetingUsers.meeting.like(meeting_id)).first()
+    already_in = MeetingUsers.query.filter(MeetingUsers.user.like(user_id)).filter(
+        MeetingUsers.meeting.like(meeting_id)).first()
     if already_in:
         return
     return __safe_commit(lambda: __add_user_to_meeting(user_id, meeting_id))
@@ -211,7 +212,8 @@ def get_meetings_for_course(course_id, current_user_id):
 
     # Too complex to make a Sqlalchemy
 
-    query = db.session.query(Meeting, Subject, Course, User, MeetingUsers, literal_column('count_1'), literal_column('in_the_meeting')).from_statement(_get_query(course_id, current_user_id))
+    query = db.session.query(Meeting, Subject, Course, User, MeetingUsers, literal_column('count_1'),
+                             literal_column('in_the_meeting')).from_statement(_get_query(course_id, current_user_id))
 
     # print str(query)
     return query
@@ -262,7 +264,7 @@ def _get_query(course_id, current_user_id):
        meeting_users.meeting     AS meeting_users_meeting,
        meeting_users.user        AS meeting_users_user,
        count(meeting_users.user) AS count_1,
-       CASE WHEN EXISTS(SELECT * FROM meeting_users WHERE meeting_users.user LIKE {} AND meeting.id LIKE meeting_users.meeting) THEN 0 ELSE 1 END [in_the_meeting]
+       CASE WHEN EXISTS(SELECT * FROM meeting_users WHERE meeting_users.user LIKE {} AND meeting.id LIKE meeting_users.meeting) THEN 1 ELSE 0 END [in_the_meeting]
 FROM meeting,
      subject,
      course,
