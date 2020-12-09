@@ -231,7 +231,6 @@ def get_subjects_for_course(course_id):
     return db.session.query(Subject).join(Course).filter(
         Subject.course.like(Course.id)).filter(Course.id.like(course_id))
 
-
 def _get_query(course_id, current_user_id):
     # call me the master of queries :)
     return db.text("""
@@ -263,7 +262,7 @@ def _get_query(course_id, current_user_id):
        meeting_users.meeting     AS meeting_users_meeting,
        meeting_users.user        AS meeting_users_user,
        count(meeting_users.user) AS count_1,
-       CASE WHEN EXISTS(SELECT * FROM meeting_users WHERE meeting_users.user LIKE {} AND meeting.id LIKE meeting_users.meeting) THEN true ELSE false END [in_the_meeting]
+       CASE WHEN EXISTS(SELECT * FROM meeting_users WHERE meeting_users.user LIKE {} AND meeting.id LIKE meeting_users.meeting) THEN 0 ELSE 1 END [in_the_meeting]
 FROM meeting,
      subject,
      course,
