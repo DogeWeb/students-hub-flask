@@ -233,7 +233,6 @@ def get_subjects_for_course(course_id):
     return db.session.query(Subject).join(Course).filter(
         Subject.course.like(Course.id)).filter(Course.id.like(course_id))
 
-
 def _get_query(course_id, current_user_id):
     # call me the master of queries :)
     return db.text("""
