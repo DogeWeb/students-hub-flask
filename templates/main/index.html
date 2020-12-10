@@ -33,9 +33,12 @@
 
 {% if current_user.is_authenticated %}
   <p>You are <span style="color:green">authenticated</span></p>
-  <ul>
-    <li><a href="/logout">Logout</a></li>
-  </ul>
+    <a href="/logout">  <!-- Accent-colored raised button with ripple -->
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+      Logout
+    </button>
+    </a>
+
 {% else %}
   <p>You are <span class="mdl-color-text--red-700" style="font-weight: 600">not authenticated</span>:</p>
   <ul>

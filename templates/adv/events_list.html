@@ -1,0 +1,54 @@
+{% extends "_base.html" %}
+{% block content %}
+
+    {#  e   (Event)          #}
+    {#  id                   #}
+    {#  name                 #}
+    {#  datetime             #}
+    {#  description          #}
+    {#  image                #}
+
+    <!-- Wide card with share menu button -->
+    <style>
+        .demo-card-wide.mdl-card {
+            width: 512px;
+        }
+
+        .demo-card-wide > .mdl-card__title {
+            color: #fff;
+            height: 176px;
+        {#background: url('../assets/demos/welcome_card.jpg') center / cover;#}
+        }
+
+        .demo-card-wide > .mdl-card__menu {
+            color: #fff;
+        }
+    </style>
+
+    {% for e in events_list %}
+
+        <div class="mdl-grid">
+            <div class="mdl-layout-spacer"></div>
+
+            <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title"
+                     style="background: url('{{ url_for('get_adv_image', filename=e.image) }}') center / cover">
+                    <h2 class="mdl-card__title-text">{{ e.name }}</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    {{ e.description }}
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    {{ e.datetime.strftime("%d %b at %I:%M %p") }}
+                </div>
+            </div>
+            <div class="mdl-layout-spacer"></div>
+        </div>
+
+    {% endfor %}
+
+
+
+
+
+{% endblock %}

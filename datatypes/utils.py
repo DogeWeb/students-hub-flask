@@ -178,11 +178,12 @@ def __remove_meeting(meeting_id):
     return
 
 
-def add_note(user_id, subject_id, description, date, file_path):
-    return __safe_commit(lambda: __add_note(user_id, subject_id, description, date, file_path))
+def add_note(user_id, subject_id, description, file_path):
+    return __safe_commit(lambda: __add_note(user_id, subject_id, description, file_path))
 
 
-def __add_note(user_id, subject_id, description, date, file_path):
+def __add_note(user_id, subject_id, description, file_path):
+    date = datetime.now()
     note = Note(
         author=user_id,
         subject=subject_id,
@@ -192,30 +193,13 @@ def __add_note(user_id, subject_id, description, date, file_path):
     return db.session.add(note)
 
 
+def get_note(user_id, subject_id, file_name):
+    return Note.query.filter_by(author=user_id, subject=subject_id, file=file_name).first()
+
+
 def get_meetings_for_course(course_id, current_user_id):
-    # subqry = MeetingUsers.query\
-    #              .join(Meeting)\
-    #              .filter(MeetingUsers.user.like(current_user_id))\
-    #              .filter(Meeting.id.like(MeetingUsers.meeting)).subquery()
-
-    # subqry = db.session.execute(text("SELECT * FROM meeting_users WHERE meeting_users.user LIKE {} AND meeting.id LIKE meeting_users.meeting".format(current_user_id))).subquery()
-    #
-    # xpr = case([(exists(subqry), db.true())], else_=db.false())
-    #
-    # query = db.session.query(Meeting, Subject, Course, User, MeetingUsers, func.count(MeetingUsers.user), xpr) \
-    #     .filter(Meeting.subject.like(Subject.id)) \
-    #     .filter(Subject.course.like(Course.id)) \
-    #     .filter(Course.id.like(course_id)) \
-    #     .filter(User.id.like(Meeting.host)) \
-    #     .filter(Meeting.id.like(MeetingUsers.meeting)) \
-    #     .group_by(MeetingUsers.meeting)
-
-    # Too complex to make a Sqlalchemy
-
     query = db.session.query(Meeting, Subject, Course, User, MeetingUsers, literal_column('count_1'),
                              literal_column('in_the_meeting')).from_statement(_get_query(course_id, current_user_id))
-
-    # print str(query)
     return query
 
 
@@ -232,6 +216,14 @@ def get_notes_with_author_for_subject(subject_id):
 def get_subjects_for_course(course_id):
     return db.session.query(Subject).join(Course).filter(
         Subject.course.like(Course.id)).filter(Course.id.like(course_id))
+
+
+def get_events():
+    return Event.query.all()
+
+
+def get_apartments():
+    return Apartment.query.all()
 
 
 def _get_query(course_id, current_user_id):

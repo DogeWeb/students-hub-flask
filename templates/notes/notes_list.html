@@ -3,8 +3,11 @@
 
 {#  n[0].   (Note)       #}
 {#  id                   #}
+{#  author               #}
+{#  subject              #}
 {#  description          #}
 {#  upload_date          #}
+{#  file                 #}
 
 {#  n[1].   (Author)     #}
 {#  id                   #}
@@ -34,7 +37,7 @@
       <td class="mdl-data-table__cell--non-numeric">
               {{ n[0].upload_date.strftime("%d %B %Y %I:%M:%S %p") }}</td>
       <td class="mdl-data-table__cell--non-numeric">{{ n[0].description }}</td>
-      <td class="mdl-data-table__cell--non-numeric"><a href="{{ url_for('notes.download', file=n[0].file) }}">
+      <td class="mdl-data-table__cell--non-numeric"><a target="_blank" href="{{ url_for('notes.download', user_id=n[0].author, subject_id=n[0].subject, file_name=n[0].file) }}">
           <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
                 <i class="material-icons">download</i>
             </button></a>

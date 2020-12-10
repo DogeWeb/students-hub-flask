@@ -11,7 +11,6 @@ from datatypes.meeting import Meeting
 from datatypes.subject import Subject
 from datatypes.utils import get_meetings_for_course, add_user_to_meeting, db_remove_user_from_meeting
 from decorators import check_confirmed
-from security.templates import get_templates_path
 
 meetings_blueprint = Blueprint('meetings', __name__, )
 
@@ -21,7 +20,7 @@ meetings_blueprint = Blueprint('meetings', __name__, )
 @check_confirmed
 def meetings_list():
     course = Course.query.filter(Course.id.like(current_user.course)).first()
-    return render_template(get_templates_path('meetings/meetings_list.html'), datetime=datetime, course=course,
+    return render_template('meetings/meetings_list.html', datetime=datetime, course=course,
                            current_user=current_user, meetlist=get_meetings_for_course(
             current_user.course, current_user.id))
 

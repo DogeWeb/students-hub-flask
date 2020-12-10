@@ -12,8 +12,9 @@ class BaseConfig(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'database.sqlite')
     SECRET_KEY = '\x86\xc8\x9a\xd98\x01x\xb8\xd7B!\xac\x91\xcf\xa1\xc0\x845\xf7\xd1@\x9f]\xea'
     SECURITY_PASSWORD_SALT = 'Eo\x94\x86\x80G~!&\xba\xc1\xf9\xbd`\xfa\x1d\xcb\x8a\x02|\xbf\x88F\x89'
-    UPLOAD_FOLDER = '/uploads'
-    ALLOWED_EXTENSIONS = {'pdf'}
+    WTF_CSRF_SECRET_KEY = '\xfa\xcb="\x9a\x8e\r\x8e\xdf\r\xcc\xef+\x0f\x12D\xab\x87\xd5\xd9|\x19\x94e'
+    UPLOAD_FOLDER = 'uploads'
+    ALLOWED_EXTENSIONS = set('pdf')
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB
     DEBUG = True
     # BCRYPT_LOG_ROUNDS = 13

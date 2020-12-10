@@ -1,12 +1,58 @@
 {% extends "_base.html" %}
 {% block content %}
 
-<h1>Upload note</h1>
-<br/>
-<form class="form-signin" role="form" method="post" action="">
+<style>
+
+        .my_card_title {
+            color: white;
+            font-weight: 400;
+        }
+
+
+.mdl-button--file input {
+  cursor: pointer;
+  height: 100%;
+  right: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 300px;
+  z-index: 4;
+}
+
+.mdl-textfield--file .mdl-textfield__input {
+  box-sizing: border-box;
+  width: calc(100% - 32px);
+}
+.mdl-textfield--file .mdl-button--file {
+  right: 0;
+}
+
+
+    </style>
+
+    <div class="mdl-grid">
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp ">
+            <div class="mdl-card__title mdl-color--primary">
+                <h2 class="my_card_title mdl-card__title-text">Note upload</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+
+<form method="post" enctype="multipart/form-data">
   {{ form.csrf_token }}
 <p>
-  {{ form.file }}
+ <div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
+    <input class="mdl-textfield__input" placeholder="File" type="text" id="uploadFile" readonly/>
+    <div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+      <i class="material-icons">attach_file</i> {{ form.file }}
+    </div>
+  </div>
+<script>
+    document.getElementById("file").onchange = function () {
+    document.getElementById("uploadFile").value = this.files[0].name;
+};
+</script>
     <span class="error">
       {% if form.file.errors %}
         {% for error in form.file.errors %}
@@ -16,26 +62,34 @@
     </span>
   </p>
   <p>
-  {{ form.description }}
-    <span class="error">
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label {% if form.description.errors|length%} {{ 'is-invalid' }} {% endif %}">
+                        {{ form.description(class='mdl-textfield__input') }}
+    <label class="mdl-textfield__label" for="{{ form.description.id }}">{{ form.description.label.text }}</label>
+
+    <span class="mdl-textfield__error">
       {% if form.description.errors %}
         {% for error in form.description.errors %}
           {{ error }}
         {% endfor %}
       {% endif %}
     </span>
+    </div>
   </p>
   <p>
-  {{ form.subject }}
-    <span class="error">
-      {% if form.file.errors %}
-        {% for error in form.file.errors %}
+  <div class="mdl-selectfield mdl-js-selectfield">
+                        {{ form.subject(class='mdl-selectfield__select') }}
+    <label class="mdl-selectfield__label" for="subject">Subject</label>
+    <span class="mdl-selectfield__error">
+      {% if form.subject.errors %}
+        {% for error in form.subject.errors %}
           {{ error }}
         {% endfor %}
       {% endif %}
     </span>
+</div>
   </p>
-  {{ form.upload }}
+  <p>
+  {{ form.upload(class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent') }}
     <span class="error">
       {% if form.upload.errors %}
         {% for error in form.upload.errors %}
@@ -45,6 +99,9 @@
     </span>
   </p>
 </form>
-
+ </div>
+        </div>
+        <div class="mdl-layout-spacer"></div>
+    </div>
 
 {% endblock %}

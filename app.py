@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, render_template, jsonify, g
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user, login_required
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 
@@ -20,11 +20,13 @@ from main.views import main_blueprint
 from user.views import user_blueprint
 from meetings.views import meetings_blueprint
 from notes.views import notes_blueprint
+from advertisment.views import adv_blueprint
 
 app.register_blueprint(main_blueprint)
 app.register_blueprint(user_blueprint)
 app.register_blueprint(meetings_blueprint)
 app.register_blueprint(notes_blueprint)
+app.register_blueprint(adv_blueprint)
 
 login_manager.login_view = "user.login"
 login_manager.login_message_category = "danger"
@@ -40,11 +42,18 @@ def load_user(user_id):
 # def activate_db():
 #     return db.create_all()
 
+@app.route('/get_adv_image/<filename>')
+@login_required
+def get_adv_image(filename):
+    from flask import send_from_directory
+    return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], 'adv'), filename)
+
 
 @app.route('/_get_current_user')
+@login_required
 def get_current_user():
-    return jsonify(email=g.user.email,
-                   id=g.user.id)
+    return jsonify(email=current_user.email,
+                   id=current_user.id)
 
 
 @app.errorhandler(403)

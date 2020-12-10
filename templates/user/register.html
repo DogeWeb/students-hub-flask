@@ -27,24 +27,24 @@
                         <label class="mdl-textfield__label" for="{{ form.email.id }}">{{ form.email.label }}</label>
                     </div>
                     <span class="error">
-      {% if form.email.errors %}
-          {% for error in form.email.errors %}
-              {{ error }}
-          {% endfor %}
-      {% endif %}
-    </span>
+                      {% if form.email.errors %}
+                          {% for error in form.email.errors %}
+                              {{ error }}
+                          {% endfor %}
+                      {% endif %}
+                    </span>
                 <br/>
                         <div class="mdl-textfield mdl-js-textfield">
                         {{ form.password(placeholder="password", class='mdl-textfield__input') }}
                         <label class="mdl-textfield__label" for="{{ form.password.id }}">{{ form.password.label }}</label>
                     </div>
                         <span class="error">
-      {% if form.password.errors %}
-          {% for error in form.password.errors %}
-              {{ error }}
-          {% endfor %}
-      {% endif %}
-    </span><br/>
+                  {% if form.password.errors %}
+                      {% for error in form.password.errors %}
+                          {{ error }}
+                      {% endfor %}
+                  {% endif %}
+                </span><br/>
                 <div class="mdl-textfield mdl-js-textfield">
                         {{ form.password_con(placeholder="repeat password", class='mdl-textfield__input') }}
                         <label class="mdl-textfield__label" for="{{ form.password_con.id }}">{{ form.password_con.label }}</label>
@@ -84,7 +84,7 @@
             <br/>
                 <div class="mdl-selectfield mdl-js-selectfield">
                         {{ form.university(class='mdl-selectfield__select') }}
-                <label class="mdl-selectfield__label" for="gender">University</label>
+                <label class="mdl-selectfield__label" for="university">University</label>
                         <span class="mdl-selectfield__error">
              {% if form.university.errors %}
             {% for error in form.university.errors %}
@@ -96,7 +96,7 @@
                   <br/>
                 <div class="mdl-selectfield mdl-js-selectfield">
                         {{ form.course(class='mdl-selectfield__select') }}
-                <label class="mdl-selectfield__label" for="gender">Course</label>
+                <label class="mdl-selectfield__label" for="course">Course</label>
                         <span class="mdl-selectfield__error">
       {% if form.course.errors %}
           {% for error in form.course.errors %}

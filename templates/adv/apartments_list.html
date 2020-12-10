@@ -1,0 +1,89 @@
+{% extends "_base.html" %}
+{% block content %}
+
+    {#  a   (Apartment)       #}
+    {#  id                   #}
+    {#  description          #}
+    {#  image                #}
+    {#  email                #}
+
+    <!-- Wide card with share menu button -->
+    <style>
+        .demo-card-wide.mdl-card {
+            width: 512px;
+        }
+
+        .demo-card-wide > .mdl-card__title {
+            color: #fff;
+            height: 176px;
+        {#background: url('../assets/demos/welcome_card.jpg') center / cover;#}
+        }
+
+        .demo-card-wide > .mdl-card__menu {
+            color: #fff;
+        }
+
+        {#.demo-card-event.mdl-card {#}
+  {#width: 256px;#}
+  {#height: 256px;#}
+  {#background: #3E4EB8;#}
+{#}#}
+.demo-card-event > .mdl-card__actions {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.demo-card-event > .mdl-card__title {
+  align-items: flex-start;
+}
+.demo-card-event > .mdl-card__title > h4 {
+  margin-top: 0;
+}
+.demo-card-event > .mdl-card__actions {
+  display: flex;
+  box-sizing:border-box;
+  align-items: center;
+}
+.demo-card-event > .mdl-card__actions > .material-icons {
+  padding-right: 10px;
+}
+{#.demo-card-event > .mdl-card__title,#}
+{#.demo-card-event > .mdl-card__actions,#}
+{#.demo-card-event > .mdl-card__actions > .mdl-button {#}
+{#  color: #fff;#}
+{#}#}
+    </style>
+
+    {% for a in apts_list %}
+
+        <div class="mdl-grid">
+            <div class="mdl-layout-spacer"></div>
+
+            <div class="demo-card-wide demo-card-event mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title"
+                     style="background: url('{{ url_for('get_adv_image', filename=a.image) }}') center / cover">
+                    <h2 class="mdl-card__title-text">{{ a.name }}</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    {{ a.description }}
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    Contact:
+                    <a href="mailto:'{{ a.email }}'" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                        {{ a.email }}
+                    </a>
+                    <div class="mdl-layout-spacer"></div>
+                    <i class="material-icons">mail</i>
+                </div>
+
+            </div>
+
+
+            <div class="mdl-layout-spacer"></div>
+        </div>
+
+    {% endfor %}
+
+
+
+
+
+{% endblock %}
