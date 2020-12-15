@@ -67,12 +67,18 @@
     display: inline-block;
 }
 
+@media (max-width: 479px) {
+    . mdl-layout__tab-bar-container {
+        display: none !important;
+    }
+}
+
 </style>
 
 
 
 
-<header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+<header class="mdl-layout__header mdl-layout__header--scroll mdl-layout__header--waterfall mdl-color--primary">
 {#<header class="mdl-layout__header mdl-layout__header--transparent mdl-layout__header--scroll">#}
     <div class="mdl-layout__header-row">
       <!-- Title -->
@@ -80,7 +86,7 @@
             <span>Students</span><span class="hub mdl-color--accent">hub</span>
         </span>
     </div>
-    <div class="mdl-layout__tab-bar mdl-layout--large-screen-only mdl-js-ripple-effect mdl-color--primary-dark">
+    <div class="mdl-layout__tab-bar mdl-layout--large-screen-only mdl-cell--hide-phone mdl-js-ripple-effect mdl-color--primary-dark">
 {#    <div class="mdl-layout__tab-bar mdl-layout--large-screen-only mdl-js-ripple-effect">#}
         <a href="{{ url_for('main.home') }}"
            class="mdl-layout__tab {% if 'main.home' == request.endpoint %}is-active {% endif %}">Home</a>
@@ -101,7 +107,8 @@
             <a href="{{ url_for('user.unconfirmed') }}"
                class="mdl-layout__tab {% if 'user.unconfirmed' == request.endpoint %} is-active {% endif %}">Confirm</a>
         {% endif %}
-
+            <a href="{{ url_for('main.team') }}"
+               class="mdl-layout__tab {% if 'main.team' == request.endpoint %} is-active {% endif %}">Team</a>
         <div class="mdl-layout-spacer"></div>
         {% if current_user.is_authenticated %}
             <a href="{{ url_for('user.profile') }}"
@@ -145,7 +152,8 @@
         <a href="{{ url_for('user.unconfirmed') }}"
            class="mdl-navigation__link{% if 'user.unconfirmed' == request.endpoint %} mdl-navigation__link--current {% endif %}">Confirm</a>
     {% endif %}
-
+    <a href="{{ url_for('main.team') }}"
+               class="mdl-navigation__link {% if 'main.team' == request.endpoint %} mdl-navigation__link--current {% endif %}">Team</a>
     {% if current_user.is_authenticated %}
         <a href="{{ url_for('user.profile') }}"
            class="mdl-navigation__link{% if 'user.profile' == request.endpoint %} mdl-navigation__link--current {% endif %}">
