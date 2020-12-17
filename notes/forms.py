@@ -2,10 +2,9 @@ from flask_login import current_user
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
 from wtforms import SubmitField, StringField, SelectField
-from wtforms.validators import DataRequired, Length, ValidationError, InputRequired
+from wtforms.validators import DataRequired, Length
 from wtforms.widgets import TextArea
 
-from datatypes.note import Note
 from datatypes.utils import get_note
 
 

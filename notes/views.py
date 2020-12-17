@@ -13,7 +13,8 @@ from app import db, app
 from datatypes.course import Course
 from datatypes.meeting import Meeting
 from datatypes.subject import Subject
-from datatypes.utils import get_subjects_for_course, get_notes_for_subject, add_note, get_notes_with_author_for_subject
+from datatypes.utils import get_subjects_for_course, get_notes_for_subject, add_note, get_notes_with_author_for_subject, \
+    get_note_by_id, add_or_update_note_rating, remove_note_rating
 from decorators import check_confirmed
 from notes.forms import UploadForm
 from projconfig import basedir
@@ -51,11 +52,13 @@ def upload():
     form.subject.choices.insert(0, ('', ''))
     if form.validate_on_submit():
         filename = secure_filename(form.file.data.filename)
-        save_path = os.path.join(basedir, app.config['UPLOAD_FOLDER'], str(current_user.id), 'notes', form.subject.data, filename)
-        if not os.path.exists(save_path):
-            os.makedirs(os.path.join(basedir, app.config['UPLOAD_FOLDER'], str(current_user.id), 'notes', form.subject.data))
+        save_path = os.path.join(basedir, app.config['UPLOAD_FOLDER'], str(current_user.id), 'notes', form.subject.data)
 
-        form.file.data.save(save_path)
+        if not os.path.exists(save_path):
+            os.makedirs(
+                os.path.join(basedir, app.config['UPLOAD_FOLDER'], str(current_user.id), 'notes', form.subject.data))
+
+        form.file.data.save(os.path.join(save_path, filename))
         add_note(current_user.id, int(form.subject.data), form.description.data, filename)
         flash('Note correctly uploaded')
         return redirect(url_for('notes.notes_list', subject_id=int(form.subject.data)))
@@ -67,4 +70,29 @@ def upload():
 @login_required
 @check_confirmed
 def download(user_id, subject_id, file_name):
-    return send_from_directory(directory=os.path.join(basedir, app.config['UPLOAD_FOLDER'], user_id, 'notes', subject_id), filename=file_name, attachment_filename=file_name)
+    return send_from_directory(
+        directory=os.path.join(basedir, app.config['UPLOAD_FOLDER'], user_id, 'notes', subject_id), filename=file_name,
+        attachment_filename=file_name)
+
+
+@notes_blueprint.route("/notes/rating/<note_id>")
+@login_required
+@check_confirmed
+def rating(note_id):
+    note = get_note_by_id(note_id)
+    rating = request.args.get('rating')
+    if not note or not rating:
+        return redirect(url_for('notes.subjects_list'))
+    add_or_update_note_rating(current_user.id, int(note_id), int(rating))
+    return redirect(url_for('notes.notes_list', subject_id=note.subject))
+
+
+@notes_blueprint.route("/notes/remove_rating/<note_id>")
+@login_required
+@check_confirmed
+def remove_rating(note_id):
+    note = get_note_by_id(note_id)
+    if not note:
+        return redirect(url_for('notes.subjects_list'))
+    remove_note_rating(current_user.id, int(note_id))
+    return redirect(url_for('notes.notes_list', subject_id=note.subject))

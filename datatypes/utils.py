@@ -1,10 +1,12 @@
 from datetime import datetime
 
-from sqlalchemy import func, case, text, exists, literal_column, literal, select
+from sqlalchemy import func, case, text, exists, literal_column, literal, select, and_
+from sqlalchemy.orm import aliased
 
 from app import bcrypt
 from app import db
 from course import Course
+from datatypes.note_rating import NoteRating
 from meeting import Meeting
 from note import Note
 from subject import Subject
@@ -197,6 +199,42 @@ def get_note(user_id, subject_id, file_name):
     return Note.query.filter_by(author=user_id, subject=subject_id, file=file_name).first()
 
 
+def get_note_by_id(note_id):
+    return Note.query.filter_by(id=note_id).first()
+
+
+def get_note_rating(user_id, note_id):
+    return NoteRating.query.filter_by(user=user_id, note=note_id).first()
+
+
+def add_or_update_note_rating(user_id, note_id, rating):
+    return __safe_commit(lambda: __add_or_update_note_rating(user_id, note_id, rating))
+
+
+def __add_or_update_note_rating(user_id, note_id, rating):
+    tmp = get_note_rating(user_id, note_id)
+    if tmp:
+        tmp.rating = rating
+        return
+    note_rating = NoteRating(
+        user=user_id,
+        note=note_id,
+        rating=rating
+    )
+    return db.session.add(note_rating)
+
+
+def remove_note_rating(user_id, note_id):
+    return __safe_commit(lambda: __remove_note_rating(user_id, note_id))
+
+
+def __remove_note_rating(user_id, note_id):
+    tmp = get_note_rating(user_id, note_id)
+    if tmp:
+        return db.session.delete(tmp)
+    return
+
+
 def get_meetings_for_course(course_id, current_user_id):
     query = db.session.query(Meeting, Subject, Course, User, MeetingUsers, literal_column('count_1'),
                              literal_column('in_the_meeting')).from_statement(_get_query(course_id, current_user_id))
@@ -209,8 +247,20 @@ def get_notes_for_subject(subject_id):
 
 
 def get_notes_with_author_for_subject(subject_id):
-    return db.session.query(Note, User).join(Subject).filter(Note.subject.like(Subject.id)).filter(
-        Subject.id.like(subject_id)).filter(User.id.like(Note.author))
+    from flask_login import current_user
+    note_rating_1 = aliased(NoteRating)
+    note_rating_2 = aliased(NoteRating)
+    query = db.session.query(Note, User, func.avg(note_rating_1.rating).label('avg'), note_rating_2.rating) \
+        .join(Subject) \
+        .outerjoin(note_rating_1) \
+        .outerjoin(note_rating_2, and_(note_rating_2.note.like(Note.id), note_rating_2.user.like(current_user.id))) \
+        .filter(Note.subject.like(Subject.id)) \
+        .filter(Subject.id.like(subject_id)) \
+        .filter(User.id.like(Note.author)) \
+        .group_by(Note.id)
+    print str(query)
+    return query
+
 
 
 def get_subjects_for_course(course_id):
