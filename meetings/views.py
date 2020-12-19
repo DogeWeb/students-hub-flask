@@ -42,7 +42,8 @@ def remove_user_from_meeting(meeting_id):
     db_remove_user_from_meeting(current_user.id, meeting_id)
     return redirect(url_for('meetings.meetings_list'))
 
-@meetings_blueprint.route('/meetings/addMeeting')
+
+@meetings_blueprint.route('/meetings/addMeeting', methods=['GET', 'POST'])
 @login_required
 @check_confirmed
 def addMeeting():
@@ -52,12 +53,12 @@ def addMeeting():
     form.subject.choices.insert(0, ('', ''))
     if form.validate_on_submit():
         create_meeting(
-            host=current_user.id,
-            subject=form.subject.data,
+            host_id=current_user.id,
+            subject_id=form.subject.data,
             datetime=form.date_meeting.data,
-            creation_date=datetime.now(),
+            creation_date=datetime.datetime.now(),
             link=form.link.data,
             description=form.description.data
         )
-        redirect(url_for('meetings.meetings_list'))
+        return redirect(url_for('meetings.meetings_list'))
     return render_template('meetings/createMeeting.html', form=form)
