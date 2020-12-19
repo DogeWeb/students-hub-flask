@@ -3,10 +3,16 @@
 
 <h1>Subjects List for {{ course.name }} </h1>
 
+<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
 
-{% for s in subjectslist %}
-    <a href='{{ url_for('notes.notes_list', subject_id=s.id) }}'>{{ s.name }}</a>
-    <br/>
+<tbody>
+    <tr>
+      {% for s in subjectslist %}
+    <td class="mdl-data-table--selectable"><a href='{{ url_for('notes.notes_list', subject_id=s.id) }}'>{{ s.name }}</a>
+    <br/></td>
 {% endfor %}
 
+</tr>
+</tbody>
+</table>
 {% endblock %}

@@ -1,0 +1,2 @@
+def templates():
+    return None

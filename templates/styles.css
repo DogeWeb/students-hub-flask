@@ -236,3 +236,10 @@ html, body {
 .mdl-demo .mdl-menu__container {
   z-index: 99;
 }
+
+.myfooter{
+  position: absolute;
+  bottom: 0px;
+
+
+}
