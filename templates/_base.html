@@ -49,20 +49,34 @@
 
 
         <!-- messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="row">
-                    <div class="col-md-12">
-                        {% for category, message in messages %}
-                            <div class="alert-{{ category }}">
-                                <a class="close" title="Close" href="#" data-dismiss="alert">&times;</a>
-                                {{message}}
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-        {% endwith %}
+   <html>
+
+  <style>
+
+.alert {
+  padding: 8px;
+  border-radius: 50px;
+  font-size: 1.4rem;
+  margin-bottom: 0px;
+  border-width: 0px;
+  border-style: solid;
+    margin-left: 150px;
+    margin-right: 150px;
+      text-align: center;
+}
+.alert-info {
+  border-color: orange;
+  background-color: khaki;
+  color: darkblue;
+}
+
+  </style>
+
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert alert-info"> {{ message }}</div>
+{% endfor %}
+
+
 
         <div class="mdl-layout__tab-panel is-active">
         <!-- child template -->
@@ -132,4 +146,5 @@
     <script src={{url_for('static', filename='material.js')}}></script>
     <script src={{url_for('static', filename='mdl-selectfield.js')}}></script>
   </body>
+
 </html>
