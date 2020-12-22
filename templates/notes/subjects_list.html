@@ -1,18 +1,25 @@
 {% extends "_base.html" %}
 {% block content %}
 
-<h1>Subjects List for {{ course.name }} </h1>
+    <h1>Subjects List for {{ course.name }} </h1>
 
-<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+    <div class="mdl-grid">
+    <div class="mdl-layout-spacer"></div>
+    <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp " style="overflow-x: auto">
 
-<tbody>
-    <tr>
-      {% for s in subjectslist %}
-    <td class="mdl-data-table--selectable"><a href='{{ url_for('notes.notes_list', subject_id=s.id) }}'>{{ s.name }}</a>
-    <br/></td>
-{% endfor %}
+        <ul class="demo-list-item mdl-list">
+            {% for s in subjectslist %}
+            <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                  <i class="material-icons mdl-list__item-icon">class</i>
+                  <a href='{{ url_for('notes.notes_list', subject_id=s.id) }}'>{{ s.name }}</a>
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
 
-</tr>
-</tbody>
-</table>
+    </div>
+    <div class="mdl-layout-spacer" style="display: inline">
+
+    </div>
 {% endblock %}

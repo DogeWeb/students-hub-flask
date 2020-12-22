@@ -1,6 +1,6 @@
 import datetime
 
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 from flask import Blueprint
 from flask_login import current_user
 from flask_login import login_required
@@ -32,6 +32,7 @@ def meetings_list():
 @check_confirmed
 def join_meeting(meeting_id):
     add_user_to_meeting(current_user.id, meeting_id)
+    flash("You were successfully added to the meeting")
     return redirect(url_for('meetings.meetings_list'))
 
 
@@ -40,13 +41,14 @@ def join_meeting(meeting_id):
 @check_confirmed
 def remove_user_from_meeting(meeting_id):
     db_remove_user_from_meeting(current_user.id, meeting_id)
+    flash("You were successfully removed from the meeting")
     return redirect(url_for('meetings.meetings_list'))
 
 
-@meetings_blueprint.route('/meetings/addMeeting', methods=['GET', 'POST'])
+@meetings_blueprint.route('/meetings/add_meeting', methods=['GET', 'POST'])
 @login_required
 @check_confirmed
-def addMeeting():
+def add_meeting():
     form = AddMeetingForm(request.form)
     subjlist = get_subjects_for_course(current_user.course).all()
     form.subject.choices = map(lambda s: (s.id, s.name), subjlist)
@@ -61,4 +63,4 @@ def addMeeting():
             description=form.description.data
         )
         return redirect(url_for('meetings.meetings_list'))
-    return render_template('meetings/createMeeting.html', form=form)
+    return render_template('meetings/create_meeting.html', form=form)

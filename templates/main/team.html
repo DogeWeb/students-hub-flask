@@ -44,6 +44,9 @@
             text-transform: uppercase;
         }
 
+        .mdl-chip {
+            padding-left: 0px;
+        }
 
 
     </style>
@@ -51,38 +54,41 @@
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--4-col">
             <div class="circular--portrait mdl-shadow--16dp" style="align-content: center">
-{#                <img src="https://scontent-ort2-2.cdninstagram.com/v/t51.2885-19/116015586_2378848009089233_4784455526334482046_n.jpg?_nc_ht=scontent-ort2-2.cdninstagram.com&_nc_ohc=I2PxBkcYkTYAX_moglE&oh=f982c7aabe15521e60e78b473122f45e&oe=5FFB2A55"/>#}
             <img src="{{ url_for('static', filename='images/master.jpg') }}"/>
             </div>
             <div style="text-align: center;">
                 <br/>
                 <q class="my-quote">Security first</q>
                 <h4>Simone Ranno</h4>
-                <span class="mdl-chip"><span class="mdl-chip__text">Enterprise Database Engineer</span></span>
+                <span class="mdl-chip">
+                    <span class="mdl-chip__contact material-icons mdl-color--accent mdl-color-text--white">dns</span>
+                    <span class="mdl-chip__text">Enterprise Database Engineer</span></span>
             </div>
         </div>
         <div class="mdl-cell mdl-cell--4-col">
             <div class="circular--portrait mdl-shadow--16dp" style="align-content: center">
-                {#                <img src="https://scontent-ort2-2.cdninstagram.com/v/t51.2885-19/79827677_756833511468903_8074800612564271104_n.jpg?_nc_ht=scontent-ort2-2.cdninstagram.com&_nc_ohc=KWsF0OH-434AX8lc1ao&oh=c7e1cc65803803521ae3141b8b257c25&oe=5FFB10A5"/>#}
                 <img src="{{ url_for('static', filename='images/vins.jpg') }}"/>
             </div>
             <div style="text-align: center;">
                 <br/>
                 <q class="my-quote">Design is intelligence made visible</q>
                 <h4>Vincenzo Sparacino</h4>
-                <span class="mdl-chip"><span class="mdl-chip__text">User Interface Engineer</span></span>
+                <span class="mdl-chip">
+                    <span class="mdl-chip__contact material-icons mdl-color--accent mdl-color-text--white">web</span>
+                    <span class="mdl-chip__text">User Interface Engineer</span></span>
             </div>
         </div>
         <div class="mdl-cell mdl-cell--4-col">
             <div class="circular--portrait mdl-shadow--16dp" style="align-content: center">
-                {#                <img src="https://scontent-dfw5-2.cdninstagram.com/v/t51.2885-19/118240068_181614723366701_4434931087569748531_n.jpg?_nc_ht=scontent-dfw5-2.cdninstagram.com&_nc_ohc=EgtFk6Lu1LgAX9jeIH4&oh=d96505e74001e42024085cc3f8a806ad&oe=5FFBD8BB"/>#}
                 <img src="{{ url_for('static', filename='images/mimmo.jpg') }}"/>
             </div>
             <div style="text-align: center;">
                 <br/>
                 <q class="my-quote">There is no place like <span class="consolas">127.0.0.1</span></q>
                 <h4>Domenico Geraci</h4>
-                <span class="mdl-chip"><span class="mdl-chip__text">Backend Software Engineer</span></span>
+                <span class="mdl-chip">
+                    <span class="mdl-chip__contact material-icons mdl-color--accent mdl-color-text--white">engineering</span>
+                    <span class="mdl-chip__text">Backend Software Engineer</span></span>
             </div>
         </div>
     </div>
@@ -96,31 +102,36 @@
                 <br/>
                 <q class="my-quote">Master the <b>topic</b>, the <b>message</b><br/>and the <b>delivery</b></q>
                 <h4>Giuseppe Barbiero</h4>
-                <span class="mdl-chip"><span class="mdl-chip__text">Lead Technical Program Manager</span></span>
+                <span class="mdl-chip">
+                    <span class="mdl-chip__contact material-icons mdl-color--accent mdl-color-text--white">admin_panel_settings</span>
+                    <span class="mdl-chip__text">Lead Technical Program Manager</span></span>
             </div>
         </div>
         <div class="mdl-cell mdl-cell--4-col">
             <div class="circular--portrait mdl-shadow--16dp" style="align-content: center">
-{#                <img src="https://scontent-mxp1-1.cdninstagram.com/v/t51.2885-15/sh0.08/e35/s640x640/84671055_861622034279828_8152862636941414745_n.jpg?_nc_ht=scontent-mxp1-1.cdninstagram.com&_nc_cat=108&_nc_ohc=1f49UFrBJNcAX9mxu8i&tp=1&oh=9995a7b00106d984e0e27c24b339bb64&oe=5FFD3F28"/>#}
                 <img src="{{ url_for('static', filename='images/bottermann.jpg') }}"/>
             </div>
             <div style="text-align: center;">
                 <br/>
                 <q class="my-quote"><b>Efficiency</b> is doing things <i>right</i><br/><b>Effectiveness</b> is doing the <i>right things</i></q>
                 <h4>Andrea Bottaro</h4>
-                <span class="mdl-chip"><span class="mdl-chip__text">Strategic Partner Manager</span></span>
+                <span class="mdl-chip">
+                    <span class="mdl-chip__contact material-icons mdl-color--accent mdl-color-text--white">mediation</span>
+                    <span class="mdl-chip__text">Strategic Partner Manager</span></span>
             </div>
 
         </div>
         <div class="mdl-cell mdl-cell--4-col">
             <div class="circular--portrait mdl-shadow--16dp" style="align-content: center">
-                <img src="https://scontent-ort2-1.cdninstagram.com/v/t51.2885-19/42547849_1872555306191661_6830306140304179200_n.jpg?_nc_ht=scontent-ort2-1.cdninstagram.com&_nc_ohc=sf5cIYRI7VQAX_VEyDJ&oh=7302bf2fd2bff389549c90c8c2e29a09&oe=5FFCE5D8"/>
+                <img src="{{ url_for('static', filename='images/frank.jpg') }}"/>
             </div>
             <div style="text-align: center;">
                 <br/>
                 <q class="my-quote">It always seems <b>impossible</b><br/><i>until it's done</i></q>
                 <h4>Francesco Ferrazzo</h4>
-                <span class="mdl-chip"><span class="mdl-chip__text">Responsible Innovation Manager</span></span>
+                <span class="mdl-chip">
+                    <span class="mdl-chip__contact material-icons mdl-color--accent mdl-color-text--white">trending_up</span>
+                    <span class="mdl-chip__text">Responsible Innovation Manager</span></span>
             </div>
         </div>
     </div>
