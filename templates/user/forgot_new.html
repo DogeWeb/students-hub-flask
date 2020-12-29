@@ -2,8 +2,14 @@
 
 {% block content %}
 
-<h1>Forgot Your Password?</h1>
-<br />
+<div class="mdl-grid">
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp ">
+            <div class="mdl-card__title mdl-color--primary-dark">
+                <h2 style="color: white">Forgot Your Password?</h2>
+            </div>
+        <div class="mdl-card__supporting-text">
+
 <form class="form-signin" role="form" method="post" action="">
   {{ form.csrf_token }}
   <p>
@@ -26,8 +32,11 @@
       {% endif %}
     </span>
   </p>
-  <button class="btn btn-success" type="submit">Reset your password!</button>
+  <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Reset your password!</button>
   <br /><br />
 </form>
-
+     </div>
+        </div>
+        <div class="mdl-layout-spacer"></div>
+    </div>
 {% endblock %}
