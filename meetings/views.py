@@ -10,7 +10,7 @@ from datatypes.course import Course
 from datatypes.meeting import Meeting
 from datatypes.subject import Subject
 from datatypes.utils import get_meetings_for_course, add_user_to_meeting, db_remove_user_from_meeting, create_meeting, \
-    get_subjects_for_course
+    get_subjects_for_course, remove_meeting
 from decorators import check_confirmed
 from meetings.forms import AddMeetingForm
 
@@ -64,3 +64,12 @@ def add_meeting():
         )
         return redirect(url_for('meetings.meetings_list'))
     return render_template('meetings/create_meeting.html', form=form)
+
+
+@meetings_blueprint.route('/meetings/delete/<meeting_id>')
+@login_required
+@check_confirmed
+def delete_meeting(meeting_id):
+    remove_meeting(meeting_id)
+    flash("Meeting successfully deleted")
+    return redirect(url_for('meetings.meetings_list'))

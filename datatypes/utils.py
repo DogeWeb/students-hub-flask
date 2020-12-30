@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from flask_login import current_user
 from sqlalchemy import func, case, text, exists, literal_column, literal, select, and_
 from sqlalchemy.orm import aliased
 
@@ -175,6 +176,11 @@ def remove_meeting(meeting_id):
 
 
 def __remove_meeting(meeting_id):
+    meeting = Meeting.query.filter_by(id=meeting_id).first()
+
+    if not current_user.id == meeting.host:
+        return
+
     MeetingUsers.query.filter_by(meeting=meeting_id).delete()
     Meeting.query.filter_by(id=meeting_id).delete()
     return
@@ -260,7 +266,6 @@ def get_notes_with_author_for_subject(subject_id):
         .group_by(Note.id)
     print str(query)
     return query
-
 
 
 def get_subjects_for_course(course_id):

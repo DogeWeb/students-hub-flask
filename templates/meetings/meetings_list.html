@@ -29,6 +29,7 @@
       <th class="mdl-data-table__cell--non-numeric">Link</th>
       <th>Participants</th>
       <th class="mdl-data-table__cell--non-numeric">Join</th>
+      <th class="mdl-data-table__cell--non-numeric">Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -57,6 +58,15 @@
            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Join Meeting</button>
               </form>
           {% endif %}
+    </td>
+    <td>
+        {% if m[0].host == current_user.id %}
+            <form action="{{ url_for('meetings.delete_meeting', meeting_id=m[0].id) }}" method="get">
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                    <i class="material-icons">delete_forever</i>
+                </button>
+            </form>
+        {% endif %}
     </td>
     </tr>
     {% endfor %}
