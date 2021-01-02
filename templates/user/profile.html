@@ -1,19 +1,26 @@
 {% extends "_base.html" %}
 
 {% block content %}
-
-<h1>Your Profile</h1>
-<br>
+<div class="mdl-grid">
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp ">
+            <div class="mdl-card__title mdl-color--primary-dark">
+                <h1 style="color: white">Your Profile</h1>
+            </div>
+        <div class="mdl-card__supporting-text">
 
 {% if current_user.is_authenticated() %}
-  <p>Email: <strong>{{current_user.email}}</strong></p>
+  <h5>Email: <strong>{{current_user.email}}</strong></h5>
+    <p>Surname:</p><h5><strong>{{ current_user.surname }}</strong></h5>
+    <p>Name:</p><h5><strong>{{ current_user.name }}</strong></h5>
+
 {% endif %}
 
-<h2>Change Password</h2>
-<br>
-<form class="form-reset" role="form" method="post" action="">
+
+                <h3>Change Password</h3>
+            <form class="form-reset" role="form" method="post" action="">
   {{ form.csrf_token }}
-  <p>
+
   <div class="mdl-textfield mdl-js-textfield">
                         {{ form.password(placeholder="password", class='mdl-textfield__input') }}
                         <label class="mdl-textfield__label" for="{{ form.password.id }}">{{ form.password.label }}</label>
@@ -25,7 +32,6 @@
         {% endfor %}
       {% endif %}
     </span>
-  </p>
   <p>
   {{ form.confirm(placeholder="confirm") }}
     <span class="error">
@@ -36,8 +42,14 @@
       {% endif %}
     </span>
   </p>
-  <button class="btn btn-success" type="submit">Update</button>
+  <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Update</button>
 </form>
+        </div>
+
+        </div>
+<div class="mdl-layout-spacer"></div>
+    </div>
+
 
 
 {% endblock %}

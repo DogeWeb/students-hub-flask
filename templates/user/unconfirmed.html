@@ -2,9 +2,18 @@
 
 {% block content %}
 
-<h1>Welcome!</h1>
-<br>
-<p>You have not confirmed your account. Please check your inbox (and your spam folder) - you should have received an email with a confirmation link.</p>
-<p>Didn't get the email? <a href="{{ url_for('user.resend_confirmation') }}">Resend</a>.</p>
+<div class="mdl-grid">
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-cell mdl-cell--12-col  mdl-shadow--2dp ">
+            <div class="mdl-card__title mdl-color--primary-dark">
+                <h2 style="color: white">Welcome!</h2>
+            </div>
+        <div class="mdl-card__supporting-text">
+            <p style="font-weight: bold">You have not confirmed your account. Please check your inbox (and your spam folder) - you should have received an email with a confirmation link.</p>
+            <p style="font-weight: bold">Didn't get the email? <a href="{{ url_for('user.resend_confirmation') }}">Resend</a>.<p>
+</div>
 
+        </div>
+<div class="mdl-layout-spacer"></div>
+    </div>
 {% endblock %}
