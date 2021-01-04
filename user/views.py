@@ -22,6 +22,7 @@ def register():
     if form.validate_on_submit():
         usr = insert_user(
             name=form.name.data,
+
             surname=form.surname.data,
             email=form.email.data,
             password=form.password.data,
