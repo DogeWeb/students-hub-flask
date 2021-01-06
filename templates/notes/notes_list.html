@@ -27,19 +27,22 @@
                 <thead>
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric">Author</th>
+                    <th class="mdl-data-table__cell--non-numeric">Title</th>
                     <th class="mdl-data-table__cell--non-numeric">Uploaded on</th>
                     <th class="mdl-data-table__cell--non-numeric">Description</th>
                     <th class="mdl-data-table__cell--non-numeric">Users Rating</th>
                     <th class="mdl-data-table__cell--non-numeric">Your Rating</th>
                     <th class="mdl-data-table__cell--non-numeric">Download</th>
+                    <th class="mdl-data-table__cell--non-numeric">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for n in noteslist %}
                     <tr>
                         <td class="mdl-data-table__cell--non-numeric">{{ n[1].name + ' ' + n[1].surname }}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{ n[0].file }}</td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            {{ n[0].upload_date.strftime("%d %B %Y %I:%M:%S %p") }}</td>
+                            {{ n[0].upload_date.strftime("%d %B %Y") }}</td>
                         <td class="mdl-data-table__cell--non-numeric">{{ n[0].description }}</td>
                         <td class="mdl-data-table__cell--non-numeric">
                             {% if n[2] is not none %}{{ n[2] }}{% else %} {{ 'No ratings' }} {% endif %}</td>
@@ -94,6 +97,16 @@
                                 <i class="material-icons">download</i>
                             </button>
                         </a>
+                        </td>
+                        <td>
+                            {% if n[0].author == current_user.id %}
+                                    <form action="{{ url_for('notes.delete_note', note_id=n[0].id) }}"
+                                          method="get">
+                                        <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                                            <i class="material-icons">delete_forever</i>
+                                        </button>
+                                    </form>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

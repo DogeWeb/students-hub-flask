@@ -230,6 +230,20 @@ def __add_or_update_note_rating(user_id, note_id, rating):
     return db.session.add(note_rating)
 
 
+def remove_note(user_id, note_id):
+    return __safe_commit(lambda: __remove_note(user_id, note_id))
+
+
+def __remove_note(user_id, note_id):
+    note = Note.query.filter_by(id=note_id).first()
+    if not note:
+        return
+    if not note.author == user_id:
+        return
+    NoteRating.query.filter_by(note=note_id).delete()
+    return db.session.delete(note)
+
+
 def remove_note_rating(user_id, note_id):
     return __safe_commit(lambda: __remove_note_rating(user_id, note_id))
 
@@ -264,7 +278,7 @@ def get_notes_with_author_for_subject(subject_id):
         .filter(Subject.id.like(subject_id)) \
         .filter(User.id.like(Note.author)) \
         .group_by(Note.id)
-    print str(query)
+    # print str(query)
     return query
 
 

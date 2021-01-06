@@ -14,7 +14,7 @@ from datatypes.course import Course
 from datatypes.meeting import Meeting
 from datatypes.subject import Subject
 from datatypes.utils import get_subjects_for_course, get_notes_for_subject, add_note, get_notes_with_author_for_subject, \
-    get_note_by_id, add_or_update_note_rating, remove_note_rating
+    get_note_by_id, add_or_update_note_rating, remove_note_rating, remove_note
 from decorators import check_confirmed
 from notes.forms import UploadForm
 from projconfig import basedir
@@ -64,6 +64,25 @@ def upload():
         return redirect(url_for('notes.notes_list', subject_id=int(form.subject.data)))
 
     return render_template('notes/upload.html', form=form)
+
+
+@notes_blueprint.route("/notes/delete_note/<note_id>")
+@login_required
+@check_confirmed
+def delete_note(note_id):
+    note = get_note_by_id(note_id)
+    if not note:
+        return redirect(url_for('notes.subjects_list'))
+    if not note.author == current_user.id:
+        return redirect(url_for('notes.subjects_list'))
+
+    remove_note(current_user.id, int(note_id))
+    save_path = os.path.join(basedir, app.config['UPLOAD_FOLDER'], str(current_user.id), 'notes', str(note.subject))
+    try:
+        os.remove(os.path.join(save_path, note.file))
+    except Exception as e:
+        print e
+    return redirect(url_for('notes.notes_list', subject_id=note.subject))
 
 
 @notes_blueprint.route("/download/<user_id>/<subject_id>/<file_name>", methods=["POST", "GET"])
