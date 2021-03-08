@@ -33,7 +33,8 @@ class RegisterForm(FlaskForm):
     surname = StringField('surname:', validators=[DataRequired(), Length(min=2, max=20)])
     email = EmailField('email', validators=[DataRequired(), Email(), validate_email])
     password = PasswordField('password', validators=[DataRequired(), Length(min=4, max=80)])
-    password_con = PasswordField('repeat password', validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
+    password_con = PasswordField('repeat password',
+                                 validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
     university = SelectField('select university', choices=[(un.id, un.name) for un in University.query])
     course = SelectField('Select course', choices=[(c.id, c.name) for c in Course.query])
     dateofbirth = DateField('date of birth', validators=[DataRequired(), validate_dateofbirth])
@@ -68,3 +69,13 @@ class ChangePasswordForm(FlaskForm):
             EqualTo('password', message='Passwords must match.')
         ]
     )
+
+
+class EditProfileForm(FlaskForm):
+    name = StringField('name:', validators=[Length(min=2, max=20)])
+    surname = StringField('surname:', validators=[Length(min=2, max=20)])
+    password = PasswordField('password', validators=[Length(max=80)])
+    password_con = PasswordField('repeat password', validators=[Length(max=80)])
+    university = SelectField('select university', choices=[(un.id, un.name) for un in University.query])
+    course = SelectField('Select course', choices=[(c.id, c.name) for c in Course.query])
+    dateofbirth = DateField('date of birth', validators=[validate_dateofbirth])

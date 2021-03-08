@@ -2,42 +2,134 @@
 
 {% block content %}
 
-<h1>Your Profile</h1>
-<br>
+    <style>
 
-{% if current_user.is_authenticated() %}
-  <p>Email: <strong>{{current_user.email}}</strong></p>
-{% endif %}
+        .my_card_title {
+            color: white;
+            font-weight: 400;
+        }
 
-<h2>Change Password</h2>
-<br>
-<form class="form-reset" role="form" method="post" action="">
-  {{ form.csrf_token }}
-  <p>
-  <div class="mdl-textfield mdl-js-textfield">
+    </style>
+
+    <div class="mdl-grid">
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp ">
+            <div class="mdl-card__title mdl-color--primary">
+                <h2 class="my_card_title mdl-card__title-text">Your Profile</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                {% if current_user.is_authenticated() %}
+                    <p>Email: <strong>{{ current_user.email }}</strong></p>
+                {% endif %}
+
+                <form class="form-signin" role="form" method="post" action="">
+                    {{ form.csrf_token }}
+
+                    {% if edit==True %}
+
+                    <div class="mdl-textfield mdl-js-textfield">
                         {{ form.password(placeholder="password", class='mdl-textfield__input') }}
-                        <label class="mdl-textfield__label" for="{{ form.password.id }}">{{ form.password.label }}</label>
+                        <label class="mdl-textfield__label"
+                               for="{{ form.password.id }}">{{ form.password.label }}</label>
                     </div>
-    <span class="error">
-      {% if form.password.errors %}
-        {% for error in form.password.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
-  </p>
-  <p>
-  {{ form.confirm(placeholder="confirm") }}
-    <span class="error">
-      {% if form.confirm.errors %}
-        {% for error in form.confirm.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
-  </p>
-  <button class="btn btn-success" type="submit">Update</button>
-</form>
+                    <span class="error">
+                  {% if form.password.errors %}
+                      {% for error in form.password.errors %}
+                          {{ error }}
+                      {% endfor %}
+                  {% endif %}
+                </span><br/>
+                    <div class="mdl-textfield mdl-js-textfield">
+                        {{ form.password_con(placeholder="repeat password", class='mdl-textfield__input') }}
+                        <label class="mdl-textfield__label"
+                               for="{{ form.password_con.id }}">{{ form.password_con.label }}</label>
+                    </div>
 
+                    <span class="error">
+      {% if form.password_con.errors %}
+          {% for error in form.password_con.errors %}
+              {{ error }}
+          {% endfor %}
+      {% endif %}
+    </span>
+
+                {% endif %}
+
+                    <br/>
+                    <div class="mdl-textfield mdl-js-textfield">
+                        {{ form.name(placeholder="name", class='mdl-textfield__input') }}
+                        <label class="mdl-textfield__label" for="{{ form.name.id }}">{{ form.name.label }}</label>
+                    </div>
+                    <span class="error">
+      {% if form.name.errors %}
+          {% for error in form.name.errors %}
+              {{ error }}
+          {% endfor %}
+      {% endif %}
+    </span>
+                    <br/>
+                    <div class="mdl-textfield mdl-js-textfield">
+                        {{ form.surname(placeholder="surname", class='mdl-textfield__input') }}
+                        <label class="mdl-textfield__label" for="{{ form.surname.id }}">{{ form.surname.label }}</label>
+                    </div>
+                    <span class="error">
+      {% if form.surname.errors %}
+          {% for error in form.surname.errors %}
+              {{ error }}
+          {% endfor %}
+      {% endif %}
+    </span>
+                    <br/>
+                    <div class="mdl-selectfield mdl-js-selectfield">
+                        {{ form.university(class='mdl-selectfield__select') }}
+                        <label class="mdl-selectfield__label" for="university">University</label>
+                        <span class="mdl-selectfield__error">
+             {% if form.university.errors %}
+                 {% for error in form.university.errors %}
+                     {{ error }}
+                 {% endfor %}
+             {% endif %}
+            </span>
+                    </div>
+                    <br/>
+                    <div class="mdl-selectfield mdl-js-selectfield">
+                        {{ form.course(class='mdl-selectfield__select') }}
+                        <label class="mdl-selectfield__label" for="course">Course</label>
+                        <span class="mdl-selectfield__error">
+      {% if form.course.errors %}
+          {% for error in form.course.errors %}
+              {{ error }}
+          {% endfor %}
+      {% endif %}
+    </span>
+                    </div>
+                    <br/><br/>
+                    <p>Birthdate</p>
+                    {{ form.dateofbirth }}
+                    <span class="error">
+                      {% if form.dateofbirth.errors %}
+                          {% for error in form.dateofbirth.errors %}
+                              {{ error }}
+                          {% endfor %}
+                      {% endif %}
+                    </span>
+                <br/><br/>
+                {% if edit==True %}
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">
+                        Save changes
+                    </button>
+                {% else %}
+                    <a href="{{ url_for('user.profile', edit=1) }}">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button">
+                        Edit info
+                    </button>
+                    </a>
+                {% endif %}
+                </form>
+
+            </div>
+        </div>
+        <div class="mdl-layout-spacer"></div>
+    </div>
 
 {% endblock %}

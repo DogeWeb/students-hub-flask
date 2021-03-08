@@ -11,7 +11,7 @@ from decorators import check_confirmed
 
 from security.email import send_email
 from security.token import generate_confirmation_token, confirm_token
-from user.forms import LoginForm, RegisterForm, ForgotForm, ChangePasswordForm
+from user.forms import LoginForm, RegisterForm, ForgotForm, ChangePasswordForm, EditProfileForm
 
 user_blueprint = Blueprint('user', __name__, )
 
@@ -53,7 +53,7 @@ def login():
         if user and bcrypt.check_password_hash(
                 user.password, request.form['password']):
             login_user(user)
-            flash('Welcome '+user.email, 'success')
+            flash('Welcome ' + user.email, 'success')
             return redirect(url_for('main.home'))
         else:
             flash('Invalid email and/or password.', 'danger')
@@ -69,22 +69,49 @@ def logout():
     return redirect(url_for('user.login'))
 
 
-@user_blueprint.route('/profile', methods=['GET', 'POST'])
+@user_blueprint.route('/profile/', defaults={'edit': None}, methods=['GET', 'POST'])
+@user_blueprint.route('/profile/<int:edit>', methods=['GET', 'POST'])
 @login_required
 @check_confirmed
-def profile():
-    form = ChangePasswordForm(request.form)
+def profile(edit):
+    edit_flag = True if edit is not None and int(edit) == 1 else False
+
+    form = EditProfileForm(request.form)
+
     if form.validate_on_submit():
+        print update_user(current_user.id, name=form.name.data, surname=form.surname.data
+                          , dateofbirth=form.dateofbirth.data, university=form.university.data, course=form.course.data)
         user = User.query.filter_by(email=current_user.email).first()
-        if user:
-            user.password = bcrypt.generate_password_hash(form.password.data)
-            db.session.commit()
-            flash('Password successfully changed.', 'success')
-            return redirect(url_for('user.profile'))
+        flash('Personal Info successfully edited.', 'danger')
+        if len(form.password.data) > 2:
+            if user:
+                user.password = bcrypt.generate_password_hash(form.password.data)
+                db.session.commit()
+                flash('Password successfully changed.', 'success')
+                return redirect(url_for('user.profile'))
+            else:
+                flash('Password change was unsuccessful.', 'danger')
+                return redirect(url_for('user.profile'))
         else:
-            flash('Password change was unsuccessful.', 'danger')
             return redirect(url_for('user.profile'))
-    return render_template('user/profile.html', form=form)
+
+    form.university.default = int(current_user.university)
+    form.course.default = int(current_user.course)
+    form.process()
+    form.dateofbirth.data = current_user.dateofbirth
+    form.name.data = str(current_user.name)
+    form.surname.data = str(current_user.surname)
+
+    if edit is None:
+        form.university.render_kw = {'disabled': True}
+        form.course.render_kw = {'disabled': True}
+        form.dateofbirth.render_kw = {'disabled': True}
+        form.name.render_kw = {'disabled': True}
+        form.surname.render_kw = {'disabled': True}
+        # form.password.render_kw = {'style': 'display:none'}
+        # form.password_con.render_kw = {'style': 'display:none'}
+
+    return render_template('user/profile.html', form=form, edit=edit_flag)
 
 
 @user_blueprint.route('/confirm/<token>')

@@ -95,31 +95,35 @@ def auth_user(user_email, user_pw):
 def update_user(user_id, name=None, surname=None, email=None, password=None, dateofbirth=None, university=None,
                 course=None, confirmed=None, password_reset_token=None):
     return __safe_commit(
-        lambda: __update_user(user_id, name, surname, email, password, dateofbirth, university, course, confirmed))
+        lambda: __update_user(user_id, name=name, surname=surname, email=email, password=password
+                              , dateofbirth=dateofbirth, university=university, course=course, confirmed=confirmed
+                              , password_reset_token=password_reset_token))
 
 
 def __update_user(user_id, name=None, surname=None, email=None, password=None, dateofbirth=None, university=None,
                   course=None, confirmed=None, password_reset_token=None):
+    # print user_id, name, surname, email, password, dateofbirth, university, course, confirmed, password_reset_token
     usr = User.query.filter_by(id=user_id).first()
-    if usr:
-        if name is not None:
-            usr.name = name
-        if surname is not None:
-            usr.surname = surname
-        if email is not None:
-            usr.email = email
-        if password is not None:
-            usr.password = bcrypt.generate_password_hash(password).encode('utf-8')
-        if dateofbirth is not None:
-            usr.dateofbirth = dateofbirth
-        if university is not None:
-            usr.university = university
-        if course is not None:
-            usr.course = course
-        if confirmed is not None:
-            usr.confirmed = confirmed
-        if password_reset_token is not None:
-            usr.password_reset_token = password_reset_token
+    if not usr:
+        return False
+    if name is not None:
+        usr.name = name
+    if surname is not None:
+        usr.surname = surname
+    if email is not None:
+        usr.email = email
+    if password is not None:
+        usr.password = bcrypt.generate_password_hash(password).encode('utf-8')
+    if dateofbirth is not None:
+        usr.dateofbirth = dateofbirth
+    if university is not None:
+        usr.university = university
+    if course is not None:
+        usr.course = course
+    if confirmed is not None:
+        usr.confirmed = confirmed
+    if password_reset_token is not None:
+        usr.password_reset_token = password_reset_token
     return True
 
 
