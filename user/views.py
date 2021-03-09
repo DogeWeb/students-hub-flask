@@ -82,8 +82,8 @@ def profile(edit):
         print update_user(current_user.id, name=form.name.data, surname=form.surname.data
                           , dateofbirth=form.dateofbirth.data, university=form.university.data, course=form.course.data)
         user = User.query.filter_by(email=current_user.email).first()
-        flash('Personal Info successfully edited.', 'danger')
-        if len(form.password.data) > 2:
+        flash('Personal Info successfully updated.', 'danger')
+        if len(form.password.data) > 4:
             if user:
                 user.password = bcrypt.generate_password_hash(form.password.data)
                 db.session.commit()
@@ -91,9 +91,7 @@ def profile(edit):
                 return redirect(url_for('user.profile'))
             else:
                 flash('Password change was unsuccessful.', 'danger')
-                return redirect(url_for('user.profile'))
-        else:
-            return redirect(url_for('user.profile'))
+                return redirect(url_for('user.profile', edit=1))
 
     form.university.default = int(current_user.university)
     form.course.default = int(current_user.course)
